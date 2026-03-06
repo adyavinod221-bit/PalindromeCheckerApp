@@ -1,98 +1,66 @@
-// File name: UseCase4RoomSearch.java
+// File name: UseCase5BookingRequestQueue.java
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
-// Domain Model: Room
-class Room {
-    private String type;
-    private double price;
-    private String amenities;
+// Actor: Reservation
+class Reservation {
+    private String guestName;
+    private String roomType;
 
-    public Room(String type, double price, String amenities) {
-        this.type = type;
-        this.price = price;
-        this.amenities = amenities;
+    public Reservation(String guestName, String roomType) {
+        this.guestName = guestName;
+        this.roomType = roomType;
     }
 
-    public String getType() {
-        return type;
+    public String getGuestName() {
+        return guestName;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public String getAmenities() {
-        return amenities;
+    public String getRoomType() {
+        return roomType;
     }
 
     @Override
     public String toString() {
-        return "Room Type: " + type + ", Price: $" + price + ", Amenities: " + amenities;
+        return "Reservation Request -> Guest: " + guestName + ", Room Type: " + roomType;
     }
 }
 
-// Inventory as State Holder
-class Inventory {
-    private List<Room> rooms;
-    private List<Integer> availability;
+// Booking Request Queue
+class BookingRequestQueue {
+    private Queue<Reservation> requestQueue;
 
-    public Inventory() {
-        rooms = new ArrayList<>();
-        availability = new ArrayList<>();
+    public BookingRequestQueue() {
+        requestQueue = new LinkedList<>();
     }
 
-    public void addRoom(Room room, int availableCount) {
-        rooms.add(room);
-        availability.add(availableCount);
+    // Accept booking requests
+    public void addRequest(Reservation reservation) {
+        requestQueue.add(reservation);
+        System.out.println("Request added: " + reservation);
     }
 
-    // Read-only access: retrieve availability without modifying
-    public List<Room> getAvailableRooms() {
-        List<Room> availableRooms = new ArrayList<>();
-        for (int i = 0; i < rooms.size(); i++) {
-            if (availability.get(i) > 0) { // Validation Logic
-                availableRooms.add(rooms.get(i));
-            }
-        }
-        return availableRooms;
-    }
-}
-
-// Search Service – Separation of Concerns
-class SearchService {
-    private Inventory inventory;
-
-    public SearchService(Inventory inventory) {
-        this.inventory = inventory;
-    }
-
-    public void displayAvailableRooms() {
-        List<Room> availableRooms = inventory.getAvailableRooms();
-        if (availableRooms.isEmpty()) {
-            System.out.println("No rooms available at the moment.");
-        } else {
-            System.out.println("Available Rooms:");
-            for (Room room : availableRooms) {
-                System.out.println(room);
-            }
+    // Display queued requests (read-only, no allocation yet)
+    public void displayRequests() {
+        System.out.println("\nQueued Booking Requests (FIFO Order):");
+        for (Reservation r : requestQueue) {
+            System.out.println(r);
         }
     }
 }
 
-// Actor: Guest
+// Main class
 public class PalindromeCheckerApp {
     public static void main(String[] args) {
-        // Setup inventory
-        Inventory inventory = new Inventory();
-        inventory.addRoom(new Room("Deluxe", 120.0, "WiFi, TV, AC"), 3);
-        inventory.addRoom(new Room("Suite", 250.0, "WiFi, TV, AC, Mini Bar"), 0);
-        inventory.addRoom(new Room("Standard", 80.0, "WiFi, Fan"), 5);
+        BookingRequestQueue bookingQueue = new BookingRequestQueue();
 
-        // Guest initiates search
-        SearchService searchService = new SearchService(inventory);
-        searchService.displayAvailableRooms();
+        // Guest submits booking requests
+        bookingQueue.addRequest(new Reservation("Alice", "Deluxe"));
+        bookingQueue.addRequest(new Reservation("Bob", "Suite"));
+        bookingQueue.addRequest(new Reservation("Charlie", "Standard"));
+
+        // Display requests in arrival order
+        bookingQueue.displayRequests();
     }
 }
-
