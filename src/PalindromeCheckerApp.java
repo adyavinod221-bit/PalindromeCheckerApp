@@ -1,41 +1,47 @@
-// File: UseCase5PalindromeCheckerApp.java
+// File: UseCase6PalindromeCheckerApp.java
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 import java.util.Scanner;
 
-public class PalindromeCheckerApp {
-
-    // Method to check if a string is palindrome using stack
-    public static boolean isPalindrome(String input) {
-        Stack<Character> stack = new Stack<>();
-
-        // Push all characters into stack
-        for (char ch : input.toCharArray()) {
-            stack.push(ch);
-        }
-
-        // Pop characters and build reversed string
-        StringBuilder reversed = new StringBuilder();
-        while (!stack.isEmpty()) {
-            reversed.append(stack.pop());
-        }
-
-        // Compare original and reversed
-        return input.equals(reversed.toString());
-    }
+public class wee
+        PalindromeCheckerApp {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a word to check palindrome: ");
+        String input = sc.nextLine();
 
-        System.out.println("Enter a string to check if it's a palindrome:");
-        String input = scanner.nextLine();
+        Queue<Character> queue = new LinkedList<>();
+        Stack<Character> stack = new Stack<>();
 
-        if (isPalindrome(input)) {
-            System.out.println("Result: The string \"" + input + "\" IS a palindrome.");
-        } else {
-            System.out.println("Result: The string \"" + input + "\" is NOT a palindrome.");
+        // Step 1: Enqueue and Push characters
+        for (char ch : input.toCharArray()) {
+            queue.add(ch);   // enqueue
+            stack.push(ch);  // push
         }
 
-        scanner.close();
+        boolean isPalindrome = true;
+
+        // Step 2: Compare dequeue vs pop
+        while (!queue.isEmpty() && !stack.isEmpty()) {
+            char fromQueue = queue.remove(); // dequeue
+            char fromStack = stack.pop();    // pop
+
+            if (fromQueue != fromStack) {
+                isPalindrome = false;
+                break;
+            }
+        }
+
+        // Step 3: Result
+        if (isPalindrome) {
+            System.out.println("The word \"" + input + "\" IS a palindrome.");
+        } else {
+            System.out.println("The word \"" + input + "\" is NOT a palindrome.");
+        }
+
+        sc.close();
     }
 }
