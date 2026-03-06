@@ -1,33 +1,34 @@
-// File: UseCase6PalindromeCheckerApp.java
-
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 import java.util.Scanner;
 
-public class wee
-        PalindromeCheckerApp {
+public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter a word to check palindrome: ");
+
+        System.out.println("Enter a string to check palindrome:");
         String input = sc.nextLine();
 
+        // Queue (FIFO)
         Queue<Character> queue = new LinkedList<>();
+
+        // Stack (LIFO)
         Stack<Character> stack = new Stack<>();
 
-        // Step 1: Enqueue and Push characters
+        // Enqueue and Push characters
         for (char ch : input.toCharArray()) {
-            queue.add(ch);   // enqueue
-            stack.push(ch);  // push
+            queue.add(ch);   // Enqueue
+            stack.push(ch);  // Push
         }
 
         boolean isPalindrome = true;
 
-        // Step 2: Compare dequeue vs pop
+        // Compare dequeue vs pop
         while (!queue.isEmpty() && !stack.isEmpty()) {
-            char fromQueue = queue.remove(); // dequeue
-            char fromStack = stack.pop();    // pop
+            char fromQueue = queue.remove(); // Dequeue
+            char fromStack = stack.pop();    // Pop
 
             if (fromQueue != fromStack) {
                 isPalindrome = false;
@@ -35,11 +36,11 @@ public class wee
             }
         }
 
-        // Step 3: Result
+        // Output result
         if (isPalindrome) {
-            System.out.println("The word \"" + input + "\" IS a palindrome.");
+            System.out.println("The string \"" + input + "\" is a Palindrome.");
         } else {
-            System.out.println("The word \"" + input + "\" is NOT a palindrome.");
+            System.out.println("The string \"" + input + "\" is NOT a Palindrome.");
         }
 
         sc.close();
