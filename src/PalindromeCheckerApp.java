@@ -1,66 +1,41 @@
-// File name: UseCase5BookingRequestQueue.java
+// File: UseCase5PalindromeCheckerApp.java
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Stack;
+import java.util.Scanner;
 
-// Actor: Reservation
-class Reservation {
-    private String guestName;
-    private String roomType;
-
-    public Reservation(String guestName, String roomType) {
-        this.guestName = guestName;
-        this.roomType = roomType;
-    }
-
-    public String getGuestName() {
-        return guestName;
-    }
-
-    public String getRoomType() {
-        return roomType;
-    }
-
-    @Override
-    public String toString() {
-        return "Reservation Request -> Guest: " + guestName + ", Room Type: " + roomType;
-    }
-}
-
-// Booking Request Queue
-class BookingRequestQueue {
-    private Queue<Reservation> requestQueue;
-
-    public BookingRequestQueue() {
-        requestQueue = new LinkedList<>();
-    }
-
-    // Accept booking requests
-    public void addRequest(Reservation reservation) {
-        requestQueue.add(reservation);
-        System.out.println("Request added: " + reservation);
-    }
-
-    // Display queued requests (read-only, no allocation yet)
-    public void displayRequests() {
-        System.out.println("\nQueued Booking Requests (FIFO Order):");
-        for (Reservation r : requestQueue) {
-            System.out.println(r);
-        }
-    }
-}
-
-// Main class
 public class PalindromeCheckerApp {
+
+    // Method to check if a string is palindrome using stack
+    public static boolean isPalindrome(String input) {
+        Stack<Character> stack = new Stack<>();
+
+        // Push all characters into stack
+        for (char ch : input.toCharArray()) {
+            stack.push(ch);
+        }
+
+        // Pop characters and build reversed string
+        StringBuilder reversed = new StringBuilder();
+        while (!stack.isEmpty()) {
+            reversed.append(stack.pop());
+        }
+
+        // Compare original and reversed
+        return input.equals(reversed.toString());
+    }
+
     public static void main(String[] args) {
-        BookingRequestQueue bookingQueue = new BookingRequestQueue();
+        Scanner scanner = new Scanner(System.in);
 
-        // Guest submits booking requests
-        bookingQueue.addRequest(new Reservation("Alice", "Deluxe"));
-        bookingQueue.addRequest(new Reservation("Bob", "Suite"));
-        bookingQueue.addRequest(new Reservation("Charlie", "Standard"));
+        System.out.println("Enter a string to check if it's a palindrome:");
+        String input = scanner.nextLine();
 
-        // Display requests in arrival order
-        bookingQueue.displayRequests();
+        if (isPalindrome(input)) {
+            System.out.println("Result: The string \"" + input + "\" IS a palindrome.");
+        } else {
+            System.out.println("Result: The string \"" + input + "\" is NOT a palindrome.");
+        }
+
+        scanner.close();
     }
 }
