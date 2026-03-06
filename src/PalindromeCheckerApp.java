@@ -1,4 +1,4 @@
-// File: UseCase9PalindromeCheckerApp.java
+// File: UseCase10PalindromeCheckerApp.java
 
 public class PalindromeCheckerApp {
 
@@ -16,15 +16,24 @@ public class PalindromeCheckerApp {
         return isPalindrome(str, start + 1, end - 1);
     }
 
+    // Method to normalize string: remove spaces, ignore case
+    public static String normalize(String input) {
+        // Remove all spaces using regex and convert to lowercase
+        return input.replaceAll("\\s+", "").toLowerCase();
+    }
+
     public static void main(String[] args) {
-        String input = "madam";  // You can change this string to test other cases
+        String input = "A man a plan a canal Panama";  // Example test case
 
-        System.out.println("Input String: " + input);
+        System.out.println("Original Input: " + input);
 
-        boolean result = isPalindrome(input, 0, input.length() - 1);
+        // Normalize string before checking
+        String normalized = normalize(input);
+
+        boolean result = isPalindrome(normalized, 0, normalized.length() - 1);
 
         if (result) {
-            System.out.println("Result: The string is a palindrome.");
+            System.out.println("Result: The string is a palindrome (ignoring case & spaces).");
         } else {
             System.out.println("Result: The string is NOT a palindrome.");
         }
